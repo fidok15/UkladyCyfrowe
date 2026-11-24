@@ -1,6 +1,3 @@
--- Lab 3 Z1 c) Detektor sekwencji 100100 jako automat Moore'a (7 stanow).
--- 3 przerzutniki FDRE z UNISIM, funkcja przejsc w tablicy (with ... select).
--- Stan Sk = "dopasowano k pierwszych bitow sekwencji", S6 = wykryto (Y = 1).
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 library UNISIM;
@@ -15,21 +12,20 @@ entity Detektor is
 end Detektor;
 
 architecture Behavioral of Detektor is
-    signal Q   : STD_LOGIC_VECTOR (2 downto 0);  -- stan (wyjscia przerzutnikow)
-    signal D   : STD_LOGIC_VECTOR (2 downto 0);  -- stan nastepny
-    signal Sel : STD_LOGIC_VECTOR (3 downto 0);  -- X & Q
+    signal Q   : STD_LOGIC_VECTOR (2 downto 0);
+    signal D   : STD_LOGIC_VECTOR (2 downto 0);
+    signal Sel : STD_LOGIC_VECTOR (3 downto 0);
 begin
     Sel <= X & Q;
 
     with Sel select
-        D <= "010" when "0001",   -- X=0: S1 -> S2
-             "011" when "0010",   --      S2 -> S3
-             "101" when "0100",   --      S4 -> S5
-             "110" when "0101",   --      S5 -> S6 (wykryto)
-                                  --      S0, S3, S6 -> S0 (others)
-             "100" when "1011",   -- X=1: S3 -> S4
-             "100" when "1110",   --      S6 -> S4 (koncowka "100" + 1 = "1001")
-             "001" when "1000" | "1001" | "1010" | "1100" | "1101",  -- pozostale -> S1
+        D <= "010" when "0001",
+             "011" when "0010",
+             "101" when "0100",
+             "110" when "0101",
+             "100" when "1011",
+             "100" when "1110",
+             "001" when "1000" | "1001" | "1010" | "1100" | "1101",
              "000" when others;
 
     FF2: FDRE generic map (INIT => '0')
@@ -39,6 +35,5 @@ begin
     FF0: FDRE generic map (INIT => '0')
          port map (C => Clk, CE => CE, R => Rst, D => D(0), Q => Q(0));
 
-    -- Moore: wyjscie zalezy tylko od stanu
     Y <= '1' when Q = "110" else '0';
 end Behavioral;

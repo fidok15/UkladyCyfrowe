@@ -1,5 +1,3 @@
--- Lab 3 Z2 c) Detektor sekwencji 100100, automat Moore'a (7 stanow),
--- szablon FSM z 3 procesami: rejestr stanu, funkcja przejsc, wyjscie.
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
@@ -15,7 +13,6 @@ architecture Behavioral of Detektor is
     type state_type is (S0, S1, S2, S3, S4, S5, S6);
     signal state, next_state : state_type := S0;
 begin
-    -- 1) rejestr stanu (synchroniczny reset, CE)
     reg: process (Clk)
     begin
         if rising_edge(Clk) then
@@ -27,7 +24,6 @@ begin
         end if;
     end process;
 
-    -- 2) funkcja przejsc
     nxt: process (state, X)
     begin
         case state is
@@ -41,7 +37,6 @@ begin
         end case;
     end process;
 
-    -- 3) wyjscie (Moore: tylko od stanu)
     outp: process (state)
     begin
         if state = S6 then

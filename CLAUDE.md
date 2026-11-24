@@ -16,7 +16,7 @@ Repozytorium z materiałami i rozwiązaniami do laboratorium: VHDL, AMD Vivado, 
   - Prymitywy UNISIM (`IBUFDS`, `BUFG`) i netlista `OLED_1x32` nie skompilują się w nvc. Do lokalnego testu używaj **atrap** (stubów) w scratchpadzie. Nie wrzucaj ich do repozytorium.
 - Weryfikacja przed oddaniem:
   - równania sprawdź skryptem Pythona dla wszystkich 16 wartości X,
-  - testbench ma proces `Check` z `assert`, a w logu musi być „Koniec testu” i brak komunikatów „Blad”,
+  - samosprawdzenie (`assert`, model wzorcowy) rób **tylko w osobnym testbenchu w scratchpadzie**, nigdy w pliku oddawanym do repozytorium,
   - test negatywny: zły wariant musi dawać błędy.
 
 ## Struktura repozytorium
@@ -47,7 +47,8 @@ Repozytorium z materiałami i rozwiązaniami do laboratorium: VHDL, AMD Vivado, 
 - Pisz w zgodzie z **VHDL-93** (domyślny tryb Vivado):
   - w `port map` nie wolno używać wyrażeń (np. konkatenacji); zrób sygnał pośredni,
   - mieszając `and`/`or`, zawsze używaj nawiasów.
-- Komentarze w kodzie piszemy po polsku bez polskich znaków, w stylu istniejących plików.
+- **Nigdy nie pisz procesu `Check`** (ani innego samosprawdzenia z `assert`) w testbenchu oddawanym użytkownikowi. Testbench zawiera tylko zegar i pobudzenia.
+- **Nie dawaj komentarzy w kodzie** (VHDL, XDC). Wyjaśnienia idą do PDF-a lub odpowiedzi, nie do pliku.
 - Zegar w czystym VHDL: `IBUFDS` + `BUFG` (instrukcja, rozdz. 6.2), a w XDC odkomentowane linie `CLK_100MHz_*`. W diagramie blokowym zegar daje **Clocking Wizard** (Board → Differential Clock → Auto Connect) i wtedy linii zegara w XDC **nie** dajemy.
 
 ## Płyta: fakty (z ZU3.xdc / ZU3_Exp.xdc)

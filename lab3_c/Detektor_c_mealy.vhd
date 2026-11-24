@@ -1,6 +1,3 @@
--- Lab 3 Z3 c) Detektor sekwencji 100100, automat Mealy'ego (6 stanow),
--- szablon FSM z 3 procesami. Y = 1 w takcie, w ktorym jest S5 i X = 0
--- (ostatni bit sekwencji jest jeszcze na wejsciu, przed zboczem zegara).
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
@@ -16,7 +13,6 @@ architecture Behavioral of Detektor is
     type state_type is (S0, S1, S2, S3, S4, S5);
     signal state, next_state : state_type := S0;
 begin
-    -- 1) rejestr stanu (synchroniczny reset, CE)
     reg: process (Clk)
     begin
         if rising_edge(Clk) then
@@ -28,7 +24,6 @@ begin
         end if;
     end process;
 
-    -- 2) funkcja przejsc
     nxt: process (state, X)
     begin
         case state is
@@ -41,7 +36,6 @@ begin
         end case;
     end process;
 
-    -- 3) wyjscie (Mealy: od stanu i wejscia)
     outp: process (state, X)
     begin
         if state = S5 and X = '0' then
